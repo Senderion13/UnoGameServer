@@ -1,0 +1,30 @@
+version: '3.4'
+
+services:
+  unogame_server:
+    image: unogameserver
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: development
+    ports:
+      - 3000:3000
+  
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: ${PGDATA}
+    volumes:
+      - ${PGDATA}
+  
+  adminer:
+    image: adminer
+    restart: always
+    ports: 
+      - 8080:8080
+
