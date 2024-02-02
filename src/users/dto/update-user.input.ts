@@ -9,5 +9,8 @@ export class UpdateUserInput {
   username: string;
 
   @Field()
+  email: string;
+
+  @Field()
   password: string;
 }
