@@ -6,35 +6,23 @@ import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { HealthModule } from './health/health.module';
 import { AuthModule } from './auth/auth.module';
-import { User } from './users/entities/user.entity';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { DatabaseModule } from './database/database.module';
+import { databaseConfig } from './config';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      load: [databaseConfig],
+    }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
     }),
-    /*TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'Senderion',
-      password: '12345678',
-      database: 'Users',
-      synchronize: true,
-      logging: true,
-      entities: [User],
-      subscribers: [],
-      migrations: [],
-    }),*/
     UsersModule,
     HealthModule,
     AuthModule,
+    DatabaseModule,
   ],
-  controllers: [],
-  providers: [],
 })
 export class AppModule {}
