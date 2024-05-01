@@ -1,4 +1,4 @@
-import { Global, Module } from '@nestjs/common';
+import { Global, Injectable, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { dataSourceConfig } from './data-source';
 import { EnvironmentVariables } from '../types/env-variables';
