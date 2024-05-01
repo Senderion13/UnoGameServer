@@ -1,27 +1,21 @@
 import { Global, Injectable, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { database } from './';
-import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { GraphQLModule } from '@nestjs/graphql';
-import { join } from 'path';
+import { dataSourceConfig } from './data-source';
 import { EnvironmentVariables } from '../types/env-variables';
+import { envValidationSchema } from '../validation/env';
 
 export class AppConfigService extends ConfigService<EnvironmentVariables, true> {}
 
 @Global()
 @Module({
   imports: [
-    GraphQLModule.forRoot<ApolloDriverConfig>({
-      driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-      sortSchema: true,
-    }),
     ConfigModule.forRoot({
       cache: true,
-      //validationSchema: envValidationSchema,
-      load: [database],
+      validationSchema: envValidationSchema,
+      load: [dataSourceConfig],
     }),
   ],
   providers: [AppConfigService],
+  exports: [AppConfigService],
 })
 export class AppConfigModule {}

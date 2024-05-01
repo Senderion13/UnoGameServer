@@ -3,14 +3,18 @@ import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { User } from './entities/user.entity';
 import { DeleteResult, Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class UsersService {
-  constructor(private usersRepository: Repository<User>) {}
+  constructor(
+    @InjectRepository(User)
+    private usersRepository: Repository<User>,
+  ) {}
 
   // Queries
   findAll(): Promise<User[]> {
-    return this.usersRepository.find();
+    return this.usersRepository.find({});
   }
 
   findOne(id: number): Promise<User | null> {

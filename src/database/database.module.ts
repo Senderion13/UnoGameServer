@@ -4,8 +4,9 @@ import { AppConfigModule, AppConfigService } from '../config/config.module';
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
-      imports: [AppConfigModule],
-      useFactory: (config: AppConfigService) => config.get('database'),
+      useFactory: (configService: AppConfigService) => {
+        return configService.get('dataSource');
+      },
       inject: [AppConfigService],
     }),
   ],
