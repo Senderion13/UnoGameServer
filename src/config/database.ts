@@ -1,4 +1,4 @@
-export const databaseConfig = () => ({
+export const database = () => ({
   type: 'postgres',
   host: 'db',
   port: 5432,
